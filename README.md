@@ -1,2 +1,2 @@
 # DESI_UCI
- Proyecto ISE
+Proyecto de Disenio
