@@ -14,9 +14,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import pe.edu.upc.entity.TipoIdentificacion;
-import pe.edu.upc.entity.Rol;
-
 @Entity
 @Table(name = "personal")
 public class Personal implements Serializable {
