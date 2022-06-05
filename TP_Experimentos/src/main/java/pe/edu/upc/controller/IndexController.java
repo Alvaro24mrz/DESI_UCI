@@ -3,6 +3,9 @@ package pe.edu.upc.controller;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +33,10 @@ public class IndexController {
 	
 	private Role rol;
 	
+	private Account cuenta;
+	@Autowired
+	private IAccountService usuarioService;
+	
 	
 	
 	//@GetMapping
@@ -37,6 +44,11 @@ public class IndexController {
 	
 	@GetMapping("/registry")	
 	public String newAccount (Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		model.addAttribute("account", new Account());
 		model.addAttribute("error", "");
 		return "registro";
@@ -46,6 +58,11 @@ public class IndexController {
 	public String login(@RequestParam(value = "error", required = false) String error,
 			String logout, Model model, Principal principal,
 			RedirectAttributes flash,@Validated Account account, BindingResult result)  {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		if (result.hasErrors()) {
 			
 			return "error";
@@ -72,6 +89,11 @@ public class IndexController {
 	
 	@GetMapping("/registro")	
 	public String newAccountError (Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		model.addAttribute("account", new Account());
 		model.addAttribute("error", "El usuario ingresado ya existe");
 		return "registro";

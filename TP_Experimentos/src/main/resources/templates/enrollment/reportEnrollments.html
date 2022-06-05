@@ -23,6 +23,11 @@
 <!-- Custom styles for this template-->
 <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript"
+    src="https://www.gstatic.com/charts/loader.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -30,61 +35,22 @@
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 
-		<!-- Sidebar -->
-		<ul
+
+		<ul  th:if="${cuenta.dif == 1}"
 			class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
 			id="accordionSidebar">
 
-			<!-- Sidebar - Brand -->
-			<a
-				class="sidebar-brand d-flex align-items-center justify-content-center"
-				th:href="@{/enrollments/list}">
-				<div class="sidebar-brand-icon rotate-n-15" style="margin-left:23px;">
-					<i class="fas fa-book"></i>
-				</div>
-				<div class="sidebar-brand-text mx-2">Matrícula UPC</div>
-			</a>
-
-			<!-- Divider -->
-			<hr class="sidebar-divider my-0">
-
-
-
-
-			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item"><a class="nav-link collapsed" href="#"
-				data-target="#collapseTwo" aria-expanded=true
-				aria-controls="collapseTwo"> <i class="fas fa-fw fa-cog"></i> <span>Menú</span>
-			</a>
-				<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-					data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/students/list}">Alumno</a>
-					</div>
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/courses/list}">Curso</a>
-					</div>
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/teachers/list}">Docente</a>
-					</div>
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/coursesxteachers/list}">Curso
-							por docente</a>
-					</div>
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/enrollments/list}">Matrícula</a>
-					</div>
-				</div></li>
-
-
-
-			<!-- Divider -->
-			<hr class="sidebar-divider">
-
-			<!-- Sidebar Toggler (Sidebar) -->
-
+			<div th:replace="menuADM :: header"></div>
 
 		</ul>
+		<ul th:if="${cuenta.dif == 2}"
+			class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+			id="accordionSidebar">
+
+			<div th:replace="menuSTD :: header"></div>
+
+		</ul>
+		
 		<!-- End of Sidebar -->
 
 		<!-- Content Wrapper -->
@@ -93,58 +59,18 @@
 			<!-- Main Content -->
 			<div id="content">
 
-				<!-- Topbar -->
-				<nav
-					class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+					<!-- Topbar -->
+					<nav
+						class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-					<!-- Sidebar Toggle (Topbar) -->
-					<button id="sidebarToggleTop"
-						class="btn btn-link d-md-none rounded-circle mr-3">
-						<i class="fa fa-bars"></i>
-					</button>
+						<!-- Sidebar Toggle (Topbar) -->
+						<button id="sidebarToggleTop"
+							class="btn btn-link d-md-none rounded-circle mr-3">
+							<i class="fa fa-bars"></i>
+						</button>
 
-					<!-- Topbar Search -->
-
-
-					<!-- Topbar Navbar -->
-					<ul class="navbar-nav ml-auto">
-
-						<!-- Nav Item - Search Dropdown (Visible Only XS) -->
-						<li class="nav-item dropdown no-arrow d-sm-none"><a
-							class="nav-link dropdown-toggle" href="#" id="searchDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> <i class="fas fa-search fa-fw"></i>
-						</a></li>
-
-
-
-						<!-- Nav Item - User Information -->
-						<li class="nav-item dropdown no-arrow"><a
-							class="nav-link dropdown-toggle" href="#" id="userDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> <span
-								class="mr-2 d-none d-lg-inline text-gray-600 small"><img
-									th:src="@{/img/logout.png}" width="30" height="30" alt="logo"
-									align="middle"></img></span>
-						</a> <!-- Dropdown - User Information -->
-							<div
-								class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-								aria-labelledby="userDropdown">
-								<a class="dropdown-item" href="#"> <i
-									class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Perfil
-								</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="students/index"
-									data-toggle="modal" data-target="#logoutModal"> <i
-									class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-									Cerrar sesión
-								</a>
-							</div></li>
-
-					</ul>
-
-				</nav>
-				<!-- End of Topbar -->
+					</nav>
+					<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
@@ -160,60 +86,12 @@
 					
 
 					<hr class="sidebar-divider">
-					<form th:action="@{/coursesxteachers/reports1/}" method="post"
-						th:object="${enrollment}">
-						<div class="form-group">
-							<table>
-								<tbody>
-									<tr>
-										<td><label for="typeProject"
-											class="col-sm-2 col-form-label">Buscar:</label></td>
-										<td><select id="items"  class="form-control"
-											th:field="*{coursesxteacher.semesterCoursesxTeacher}">
-												<option value="2017 - 0">2017 - 0</option>
-												<option value="2017 - 1">2017 - 1</option>
-												<option value="2017 - 2">2017 - 2</option>
-												<option value="2018 - 0">2018 - 0</option>
-												<option value="2018 - 1">2018 - 1</option>
-												<option value="2018 - 2">2018 - 2</option>
-												<option value="2019 - 0">2019 - 0</option>
-												<option value="2019 - 1">2019 - 1</option>
-												<option value="2019 - 2">2019 - 2</option>
-												<option value="2020 - 0">2020 - 0</option>
-												<option value="2020 - 1">2020 - 1</option>
-												<option value="2020 - 2">2020 - 2</option>
-										</select></td>
-										<td><button type="submit" class="btn btn-danger">
-												<i class="iconf fa fa-search" style="color: white;"></i>
-											</button></td>
-										<td><a href="/coursesxteachers/reports" class="btn btn-danger">Limpiar</a></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</form>
-					<table class="table table-striped">
-						<thead class="thead-dark">
-							<tr>
-								<th scope="col">Curso</th>
-								<th scope="col">Docente</th>
-								<th scope="col">Semestre</th>
-								<th scope="col">Nro. de Alumnos Matriculados</th>
-								<th scope="col">Detalle</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="e: ${listEnrollments}">
-								<td th:text="${e[0]}"></td>
-								<td th:text="${e[1]}"></td>
-								<td th:text="${e[2]}"></td>
-								<td th:text="${e[3]}"></td>
-								<td class="text-center">
-								<a
-										th:href="@{'/enrollments/detail/'+ ${e[0]}}"class="btn btn-danger">Detalle</a></td>
-							</tr>
-						</tbody>
-					</table>
+					
+					<div class="container">
+						<div id="Chart1" ></div>
+						<div id="Chart2" ></div>
+						<div id="Chart3" ></div>
+					</div>
 
 					<p th:text="${mensaje}" class="form-text text-success"></p>
 
@@ -279,8 +157,95 @@
 	<!-- Core plugin JavaScript-->
 	<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
+	<script th:inline="javascript">
+        var real_data1 = /*[[${chartData}]]*/'noValue';
+        var real_data2 = /*[[${chartData2}]]*/'noValue';
+        var real_data3 = /*[[${chartData3}]]*/'noValue';
+        
+        $(document).ready(function() {
+            google.charts.load('current', {
+            	packages : [ 'bar','corechart', 'bar', 'geochart' ]
+            });
+
+            google.charts.setOnLoadCallback(draw);
+            google.charts.setOnLoadCallback(draw2);
+            google.charts.setOnLoadCallback(draw3);
+            
+        });
+
+        //Gráfico de Barras
+        function draw() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Curso');
+            data.addColumn('number', 'Estudiantes');
+            Object.keys(real_data3).forEach(function(key) {
+                data.addRow([ key, real_data3[key] ]);
+            });
+            var options = {
+                title : 'Cursos más demandados',
+                hAxis : {
+                    title : 'Curso',
+                },
+                vAxis : {
+                    title : 'Estudiantes'
+                }
+            };
+            var chart = new google.visualization.ColumnChart(document.getElementById('Chart1'));
+            chart.draw(data, options);
+        }
+
+        //Gráfico circular
+        function draw2() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Docentes');
+            data.addColumn('number', 'Estudiantes');
+            Object.keys(real_data2).forEach(function(key) {
+                data.addRow([ key, real_data2[key] ]);
+            });
+            var options = {
+                title : 'Docentes más populares'
+            };
+            
+            var chart = new google.visualization.PieChart(document
+                    .getElementById('Chart2'));
+            chart.draw(data, options);
+        }
+
+        //Gráfico de lineas
+        function draw3() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Semestre');
+            data.addColumn('number', 'Estudiantes');
+            Object.keys(real_data1).forEach(function(key) {
+                data.addRow([ key, real_data1[key] ]);
+            });
+
+            var options = {
+                    title : 'Estudiantes Semestrales',
+                    hAxis : {
+                        title : 'Semestre',
+                    },
+                    vAxis : {
+                        title : 'Estudiantes'
+                    },
+                    curveType: 'function',
+                    legend: { position: 'bottom' },
+                    pointsVisible: true
+                };
+            var chart = new google.visualization.LineChart(document.getElementById('Chart3'));
+            chart.draw(data, options);
+          }
+
+        //
+        
+        
+    </script>
+
 	<!-- Custom scripts for all pages-->
 	<script src="/js/sb-admin-2.min.js"></script>
+	
+	
+	
 
 </body>
 

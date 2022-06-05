@@ -30,61 +30,21 @@
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 
-		<!-- Sidebar -->
-		<ul
+		<ul th:if="${cuenta.dif == 1}"
 			class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
 			id="accordionSidebar">
 
-			<!-- Sidebar - Brand -->
-			<a
-				class="sidebar-brand d-flex align-items-center justify-content-center"
-				th:href="@{/enrollments/list}">
-				<div class="sidebar-brand-icon rotate-n-15" style="margin-left:23px;">
-					<i class="fas fa-book"></i>
-				</div>
-				<div class="sidebar-brand-text mx-2">Matrícula UPC</div>
-			</a>
-
-			<!-- Divider -->
-			<hr class="sidebar-divider my-0">
-
-
-
-
-			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item"><a class="nav-link collapsed" href="#"
-				data-target="#collapseTwo" aria-expanded=true
-				aria-controls="collapseTwo"> <i class="fas fa-fw fa-cog"></i> <span>Menú</span>
-			</a>
-				<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-					data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/students/list}">Alumno</a>
-					</div>
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/courses/list}">Curso</a>
-					</div>
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/teachers/list}">Docente</a>
-					</div>
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/coursesxteachers/list}">Curso
-							por docente</a>
-					</div>
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/enrollments/list}">Matrícula</a>
-					</div>
-				</div></li>
-
-
-
-			<!-- Divider -->
-			<hr class="sidebar-divider">
-
-			<!-- Sidebar Toggler (Sidebar) -->
-
+			<div th:replace="menuADM :: header"></div>
 
 		</ul>
+		<ul th:if="${cuenta.dif == 2}"
+			class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+			id="accordionSidebar">
+
+			<div th:replace="menuSTD :: header"></div>
+
+		</ul>
+
 		<!-- End of Sidebar -->
 
 		<!-- Content Wrapper -->
@@ -103,46 +63,6 @@
 						<i class="fa fa-bars"></i>
 					</button>
 
-					<!-- Topbar Search -->
-
-
-					<!-- Topbar Navbar -->
-					<ul class="navbar-nav ml-auto">
-
-						<!-- Nav Item - Search Dropdown (Visible Only XS) -->
-						<li class="nav-item dropdown no-arrow d-sm-none"><a
-							class="nav-link dropdown-toggle" href="#" id="searchDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> <i class="fas fa-search fa-fw"></i>
-						</a></li>
-
-
-
-						<!-- Nav Item - User Information -->
-						<li class="nav-item dropdown no-arrow"><a
-							class="nav-link dropdown-toggle" href="#" id="userDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> <span
-								class="mr-2 d-none d-lg-inline text-gray-600 small"><img
-									th:src="@{/img/logout.png}" width="30" height="30" alt="logo"
-									align="middle"></img></span>
-						</a> <!-- Dropdown - User Information -->
-							<div
-								class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-								aria-labelledby="userDropdown">
-								<a class="dropdown-item" href="#"> <i
-									class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Perfil
-								</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="students/index"
-									data-toggle="modal" data-target="#logoutModal"> <i
-									class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-									Cerrar sesión
-								</a>
-							</div></li>
-
-					</ul>
-
 				</nav>
 				<!-- End of Topbar -->
 
@@ -151,8 +71,8 @@
 					<ul class="nav nav-tabs">
 						<li class="nav-item"><a th:href="@{/enrollments/list/}"
 							class="nav-link active">Matricula</a></li>
-						<li class="nav-item"><a th:href="@{/coursesxteachers/reports/}"
-							class="nav-link">Reporte</a></li>
+						<li th:if="${cuenta.dif == 1}" class="nav-item"><a
+							th:href="@{/coursesxteachers/reports/}" class="nav-link">Reporte</a></li>
 					</ul>
 					<!-- Page Heading -->
 					<br>
@@ -168,7 +88,7 @@
 									<tr>
 										<td><label for="typeProject"
 											class="col-sm-2 col-form-label">Buscar:</label></td>
-										<td><select id="items"  class="form-control"
+										<td><select id="items" class="form-control"
 											th:field="*{coursesxteacher.semesterCoursesxTeacher}">
 												<option value="2017 - 0">2017 - 0</option>
 												<option value="2017 - 1">2017 - 1</option>
@@ -182,6 +102,12 @@
 												<option value="2020 - 0">2020 - 0</option>
 												<option value="2020 - 1">2020 - 1</option>
 												<option value="2020 - 2">2020 - 2</option>
+												<option value="2020 - 0">2021 - 0</option>
+												<option value="2020 - 1">2021 - 1</option>
+												<option value="2020 - 2">2021 - 2</option>
+												<option value="2020 - 0">2022 - 0</option>
+												<option value="2020 - 1">2022 - 1</option>
+												<option value="2020 - 2">2022 - 2</option>
 										</select></td>
 										<td><button type="submit" class="btn btn-danger">
 												<i class="iconf fa fa-search" style="color: white;"></i>
@@ -196,7 +122,7 @@
 					<hr class="sidebar-divider">
 
 					<table class="table table-striped">
-						<thead class="thead-dark">
+						<thead class="thead-dark" th:if="${cuenta.dif == 1}">
 							<tr>
 								<th scope="col">Curso</th>
 								<th scope="col">Docente</th>
@@ -207,7 +133,17 @@
 								<th colspan="2" scope="col">Operación</th>
 							</tr>
 						</thead>
-						<tbody>
+						<thead class="thead-dark" th:if="${cuenta.dif == 2}">
+							<tr>
+								<th scope="col">Curso</th>
+								<th scope="col">Docente</th>
+								<th scope="col">Hora de inicio</th>
+								<th scope="col">Hora de fin</th>
+								<th scope="col">Semestre</th>
+								<th colspan="2" scope="col">Operación</th>
+							</tr>
+						</thead>
+						<tbody th:if="${cuenta.dif == 1}">
 							<tr th:each="e: ${listEnrollments}">
 								<td th:text="${e.coursesxteacher.course.nameCourse}"></td>
 								<td
@@ -217,6 +153,22 @@
 								<td th:text="${e.coursesxteacher.semesterCoursesxTeacher}"></td>
 								<td
 									th:text="${e.student.nameStudent + ' ' + e.student.lastnameStudent}"></td>
+								<td><a
+									th:href="@{'/enrollments/delete/'+${e.idEnrollment}}"><i
+										class="iconf fa fa-trash" style="color: red"></i></a>&nbsp;&nbsp;<a
+									th:href="@{'/enrollments/irupdate/'+${e.idEnrollment}}"><i
+										class="iconf fa fa-pen" style="color: blue"></i></a></td>
+							</tr>
+						</tbody>
+						<tbody th:if="${cuenta.dif == 2}">
+							<tr th:each="e: ${listEnrollments}" th:object="${e}"
+								th:if="${e.student.idStudent == cuenta.student.idStudent}">
+								<td th:text="${e.coursesxteacher.course.nameCourse}"></td>
+								<td
+									th:text="${e.coursesxteacher.teacher.nameTeacher + ' ' + e.coursesxteacher.teacher.lastnameTeacher}"></td>
+								<td th:text="${e.coursesxteacher.initalHourCoursesxTeacher}"></td>
+								<td th:text="${e.coursesxteacher.finalHourCoursesxTeacher}"></td>
+								<td th:text="${e.coursesxteacher.semesterCoursesxTeacher}"></td>
 								<td><a
 									th:href="@{'/enrollments/delete/'+${e.idEnrollment}}"><i
 										class="iconf fa fa-trash" style="color: red"></i></a>&nbsp;&nbsp;<a

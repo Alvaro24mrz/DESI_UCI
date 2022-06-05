@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,14 +18,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import pe.edu.upc.entity.Account;
 import pe.edu.upc.entity.Enrollment;
 import pe.edu.upc.serviceinterface.IEnrollmentService;
+import pe.edu.upc.serviceinterface.IAccountService;
 import pe.edu.upc.serviceinterface.ICoursesxTeacherService;
 import pe.edu.upc.serviceinterface.IStudentService;
 
 @Controller
 @RequestMapping("/enrollments")
 public class EnrollmentController {
+	
+	private Account cuenta;
+	@Autowired
+	private IAccountService usuarioService;
 
 	@Autowired
 	private ICoursesxTeacherService cxtS;
@@ -35,6 +44,11 @@ public class EnrollmentController {
 
 	@GetMapping("/new")
 	public String newEnrollment(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		model.addAttribute("enrollment", new Enrollment());
 		model.addAttribute("listStudents", sS.list());
 		model.addAttribute("listCoursesxTeacher", cxtS.list());
@@ -43,6 +57,11 @@ public class EnrollmentController {
 
 	@PostMapping("/save")
 	public String saveEnrollment(@Validated Enrollment enroll, BindingResult result, Model model) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		if (result.hasErrors()) {
 			model.addAttribute("listStudents", sS.list());
 			model.addAttribute("listCoursesxTeacher", cxtS.list());
@@ -78,6 +97,11 @@ public class EnrollmentController {
 
 	@GetMapping("/list")
 	public String listEnrollment(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		try {
 			model.addAttribute("enrollment", new Enrollment());
 			model.addAttribute("listEnrollments", eS.list());
@@ -89,6 +113,11 @@ public class EnrollmentController {
 
 	@RequestMapping("/delete/{id}")
 	public String deleteEnrollment(Model model, @PathVariable(value = "id") int id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		try {
 			model.addAttribute("enrollment", new Enrollment());
 			if (id > 0) {
@@ -104,6 +133,11 @@ public class EnrollmentController {
 
 	@RequestMapping("/irupdate/{id}")
 	public String irupdate(@PathVariable int id, Model model, RedirectAttributes objRedir) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		Optional<Enrollment> objPro = eS.searchId(id);
 		if (objPro == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrió un error");
@@ -119,6 +153,11 @@ public class EnrollmentController {
 
 	@RequestMapping("/search")
 	public String searchEnrollments(Model model, @Validated Enrollment enrollment) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		List<Enrollment> listEnrollments;
 		listEnrollments = eS
 				.findSemesterCoursesxTeacherFull(enrollment.getCoursesxteacher().getSemesterCoursesxTeacher());
@@ -130,8 +169,13 @@ public class EnrollmentController {
 	}
 	
 	@GetMapping("/detail/{param}")
-	public String detailImportation(@PathVariable(value = "param") String param, Map<String, Object> model,
+	public String detailImportation(@PathVariable(value = "param") String param, Map<String, Object> model, Model model2,
 			RedirectAttributes flash) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model2.addAttribute("cuenta", cuenta);
+		
 		List<String[]> listStudents;
 		listStudents = cxtS.report2details(param);
 		if (listStudents == null) {
@@ -146,6 +190,11 @@ public class EnrollmentController {
 	
 	@PostMapping("/saves")
 	public String saveEnrollmentM(@Validated Enrollment enroll, BindingResult result, Model model) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		if (result.hasErrors()) {
 			model.addAttribute("listStudents", sS.list());
 			model.addAttribute("listCoursesxTeacher", cxtS.list());

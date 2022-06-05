@@ -29,18 +29,25 @@ public class Account implements Serializable {
 	
 	@Column (name="passwordAccount", nullable=false, length = 200)
 	private String passwordAccount;
+	
 	@ManyToOne
 	@JoinColumn(name = "idRole", nullable = false)
 	private Role roleAccount;
+	
+	@ManyToOne
+	@JoinColumn(name = "idStudent", nullable = true)
+	private Student student;
+	
+	@Column (name="rol", nullable=false)
+	private int dif;
 	
 	public Account() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-
 	public Account(int idAccount, String nameAccount, String lastNameAccount, String userAccount,
-			String passwordAccount, Role roleAccount) {
+			String passwordAccount, Role roleAccount, Student student, int dif) {
 		super();
 		this.idAccount = idAccount;
 		this.nameAccount = nameAccount;
@@ -48,18 +55,9 @@ public class Account implements Serializable {
 		this.userAccount = userAccount;
 		this.passwordAccount = passwordAccount;
 		this.roleAccount = roleAccount;
+		this.student = student;
+		this.dif = dif;
 	}
-
-
-	public String getUserAccount() {
-		return userAccount;
-	}
-
-
-	public void setUserAccount(String userAccount) {
-		this.userAccount = userAccount;
-	}
-
 
 	public int getIdAccount() {
 		return idAccount;
@@ -85,6 +83,14 @@ public class Account implements Serializable {
 		this.lastNameAccount = lastNameAccount;
 	}
 
+	public String getUserAccount() {
+		return userAccount;
+	}
+
+	public void setUserAccount(String userAccount) {
+		this.userAccount = userAccount;
+	}
+
 	public String getPasswordAccount() {
 		return passwordAccount;
 	}
@@ -99,5 +105,21 @@ public class Account implements Serializable {
 
 	public void setRoleAccount(Role roleAccount) {
 		this.roleAccount = roleAccount;
+	}
+
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	public int getDif() {
+		return dif;
+	}
+
+	public void setDif(int dif) {
+		this.dif = dif;
 	}	
 }

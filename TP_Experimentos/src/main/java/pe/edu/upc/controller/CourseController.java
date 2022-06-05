@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,23 +17,41 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import pe.edu.upc.entity.Account;
 import pe.edu.upc.entity.Course;
+import pe.edu.upc.serviceinterface.IAccountService;
 import pe.edu.upc.serviceinterface.ICourseService;
 
 @Controller
 @RequestMapping("/courses")
 public class CourseController {
+	private Account cuenta;
+	@Autowired
+	private IAccountService usuarioService;
+	
 	@Autowired
 	private ICourseService cS;
 
 	@GetMapping("/new")
 	public String newCourse(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
+		
 		model.addAttribute("course", new Course());
 		return "course/course";
 	}
 
 	@PostMapping("/save")
 	public String saveCourse(@Validated Course course, BindingResult result, Model model) throws Exception {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		if (result.hasErrors()) {
 			return "course/course";
 		} else {
@@ -53,6 +74,12 @@ public class CourseController {
 	
 	@PostMapping("/saves")
 	public String saveCoursesMod(@Validated Course course, BindingResult result, Model model) throws Exception {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		if (result.hasErrors()) {
 			return "course/course";
 		} else {
@@ -77,6 +104,12 @@ public class CourseController {
 
 	@GetMapping("/list")
 	public String listCourses(Model model) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		try {
 			model.addAttribute("course", new Course());
 			model.addAttribute("listCourses", cS.list());
@@ -88,6 +121,12 @@ public class CourseController {
 
 	@RequestMapping("/delete/{id}")
 	public String deleteCourse(Model model, @PathVariable(value = "id") int id) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		try {
 			model.addAttribute("course", new Course());
 			if (id > 0) {
@@ -103,6 +142,12 @@ public class CourseController {
 
 	@RequestMapping("/irupdate/{id}")
 	public String irupdate(@PathVariable int id, Model model, RedirectAttributes objRedir) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		Optional<Course> objPro = cS.searchId(id);
 		if (objPro == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrió un error");
@@ -116,6 +161,12 @@ public class CourseController {
 
 	@RequestMapping("/search")
 	public String searchCourses(Model model, @Validated Course course) throws Exception {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		List<Course> listCourses;
 		listCourses = cS.findNameCourseFull(course.getNameCourse());
 		if (listCourses.isEmpty()) {

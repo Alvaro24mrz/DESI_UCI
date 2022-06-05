@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,23 +18,39 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import pe.edu.upc.entity.Account;
 import pe.edu.upc.entity.Teacher;
+import pe.edu.upc.serviceinterface.IAccountService;
 import pe.edu.upc.serviceinterface.ITeacherService;
 
 @Controller
 @RequestMapping("/teachers")
 public class TeacherController {
+	private Account cuenta;
+	@Autowired
+	private IAccountService usuarioService;
+	
 	@Autowired
 	private ITeacherService tS;
 
 	@GetMapping("/new")
 	public String newTeacher(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		model.addAttribute("teacher", new Teacher());
 		return "teacher/teacher";
 	}
 
 	@PostMapping("/save")
 	public String saveTeacher(@Validated Teacher teacher, BindingResult result, Model model) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		if (result.hasErrors()) {
 			return "teacher/teacher";
 		}
@@ -69,6 +88,11 @@ public class TeacherController {
 
 	@GetMapping("/list")
 	public String listTeachers(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		try {
 			model.addAttribute("teacher", new Teacher());
 			model.addAttribute("listTeachers", tS.list());
@@ -80,6 +104,11 @@ public class TeacherController {
 
 	@RequestMapping("/delete/{id}")
 	public String deleteTeacher(Model model, @PathVariable(value = "id") int id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		try {
 			model.addAttribute("teacher", new Teacher());
 			if (id > 0) {
@@ -95,6 +124,11 @@ public class TeacherController {
 
 	@RequestMapping("/irupdate/{id}")
 	public String irupdate(@PathVariable int id, Model model, RedirectAttributes objRedir) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		Optional<Teacher> objPro = tS.searchId(id);
 		if (objPro == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrió un error");
@@ -108,6 +142,11 @@ public class TeacherController {
 
 	@RequestMapping("/search")
 	public String searchTeachers(Model model, @Validated Teacher teacher) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		List<Teacher> listTeachers;
 		listTeachers = tS.findNameTeacherFull(teacher.getNameTeacher());
 		if (listTeachers.isEmpty()) {
@@ -119,6 +158,11 @@ public class TeacherController {
 	
 	@PostMapping("/saves")
 	public String saveTeachermod(@Validated Teacher teacher, BindingResult result, Model model) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
 		if (result.hasErrors()) {
 			return "teacher/modTeacher";
 		} else {		

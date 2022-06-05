@@ -30,53 +30,22 @@
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 
-		<!-- Sidebar -->
-		<ul
+
+		<ul th:if="${cuenta.dif == 1}"
 			class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
 			id="accordionSidebar">
-			<!-- Sidebar - Brand -->
-			<a
-				class="sidebar-brand d-flex align-items-center justify-content-center"
-				th:href="@{/students/list}">
-				<div class="sidebar-brand-icon rotate-n-15" style="margin-left:23px;">
-					<i class="fas fa-book"></i>
-				</div>
-				<div class="sidebar-brand-text mx-2">Matrícula UPC</div>
-			</a>
 
-			<!-- Divider -->
-			<hr class="sidebar-divider my-0">
-
-
-			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item"><a class="nav-link collapsed" href="#"
-				data-target="#collapseTwo" aria-expanded="false"
-				aria-controls="collapseTwo"> <i class="fas fa-fw fa-cog"></i> <span>Menú</span>
-			</a>
-				<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-					data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/students/list}">Alumno</a>
-					</div>
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/courses/list}">Curso</a>
-					</div>
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/teachers/list}">Docente</a>
-					</div>
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/coursesxteachers/list}">Curso
-							por docente</a>
-					</div>
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" th:href="@{/enrollments/list}">Matrícula</a>
-					</div>
-				</div></li>
-
-			<!-- Sidebar Toggler (Sidebar) -->
-
+			<div th:replace="menuADM :: header"></div>
 
 		</ul>
+		<ul th:if="${cuenta.dif == 2}"
+			class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+			id="accordionSidebar">
+
+			<div th:replace="menuSTD :: header"></div>
+
+		</ul>
+
 		<!-- End of Sidebar -->
 
 		<!-- Content Wrapper -->
@@ -94,47 +63,6 @@
 						class="btn btn-link d-md-none rounded-circle mr-3">
 						<i class="fa fa-bars"></i>
 					</button>
-
-					<!-- Topbar Search -->
-
-
-					<!-- Topbar Navbar -->
-					<ul class="navbar-nav ml-auto">
-
-						<!-- Nav Item - Search Dropdown (Visible Only XS) -->
-						<li class="nav-item dropdown no-arrow d-sm-none"><a
-							class="nav-link dropdown-toggle" href="#" id="searchDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> <i class="fas fa-search fa-fw"></i>
-						</a></li>
-
-
-
-						<!-- Nav Item - User Information -->
-						<li class="nav-item dropdown no-arrow"><a
-							class="nav-link dropdown-toggle" href="#" id="userDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> <span
-								class="mr-2 d-none d-lg-inline text-gray-600 small"><img
-									th:src="@{/img/logout.png}" width="30" height="30" alt="logo"
-									align="middle"></img></span>
-
-						</a> <!-- Dropdown - User Information -->
-							<div
-								class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-								aria-labelledby="userDropdown">
-								<a class="dropdown-item" href="#"> <i
-									class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Perfil
-								</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#" data-toggle="modal"
-									data-target="#logoutModal"> <i
-									class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-									Cerrar sesión
-								</a>
-							</div></li>
-
-					</ul>
 
 				</nav>
 				<!-- End of Topbar -->
@@ -158,8 +86,10 @@
 						<div class="form-group row">
 							<label for="name" class="col-sm-2 col-form-label">Código:</label>
 							<div class="col-sm-6">
-								<input type="number" th:field="*{idStudent}" class="form-control"
-									th:errorclass="'form-control alert-danger'" min="201500000" max ="202020000"required /> <small
+								<input type="number" th:field="*{idStudent}"
+									class="form-control"
+									th:errorclass="'form-control alert-danger'" min="201700000"
+									max="202520000" required /> <small
 									class="form-text text-danger"
 									th:if="${#fields.hasErrors('idStudent')}"
 									th:errors="*{idStudent}"></small>
@@ -170,8 +100,8 @@
 							<div class="col-sm-6">
 								<input type="text" th:field="*{nameStudent}"
 									class="form-control"
-									th:errorclass="'form-control alert-danger'" maxlength="45" /> <small
-									class="form-text text-danger"
+									th:errorclass="'form-control alert-danger'" maxlength="45" />
+								<small class="form-text text-danger"
 									th:if="${#fields.hasErrors('nameStudent')}"
 									th:errors="*{nameStudent}"></small>
 							</div>
@@ -181,8 +111,8 @@
 							<div class="col-sm-6">
 								<input type="text" th:field="*{lastnameStudent}"
 									class="form-control"
-									th:errorclass="'form-control alert-danger'"  maxlength="45" /> <small
-									class="form-text text-danger"
+									th:errorclass="'form-control alert-danger'" maxlength="45" />
+								<small class="form-text text-danger"
 									th:if="${#fields.hasErrors('lastnameStudent')}"
 									th:errors="*{lastnameStudent}"></small>
 							</div>
@@ -209,6 +139,33 @@
 									class="form-text text-danger"
 									th:if="${#fields.hasErrors('dateOfAdmissionStudent')}"
 									th:errors="*{dateOfAdmissionStudent}"></small>
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="name" class="col-sm-2 col-form-label">Contraseña:</label>
+							<div class="col-sm-6">
+								<input type="password" th:field="*{passwordAccount}"
+									class="form-control"
+									th:errorclass="'form-control alert-danger'" required /> <small
+									class="form-text text-danger"
+									th:if="${#fields.hasErrors('passwordAccount')}"
+									th:errors="passwordAccount"></small>
+							</div>
+						</div>
+						
+						<!-- CAMBIAR POR ROL -->
+
+						<div class="form-group row">
+							<label for="name" class="col-sm-2 col-form-label">ROL:</label>
+							<div class="col-sm-6">
+								<input type="number" th:field="*{rol}"
+									class="form-control"
+									th:errorclass="'form-control alert-danger'" min="1"
+									max="2" required /> <small
+									class="form-text text-danger"
+									th:if="${#fields.hasErrors('rol')}"
+									th:errors="*{rol}"></small>
 							</div>
 						</div>
 

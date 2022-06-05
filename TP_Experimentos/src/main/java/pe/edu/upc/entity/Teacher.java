@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
@@ -18,8 +20,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Teacher implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
-	//@Min(value = 10000000, message = "El DNI debe ser de 8 dígitos")
-	//@Max(value = 99999999, message = "El DNI debe ser de 8 dígitos")
+	@Min(value = 10000000, message = "El DNI debe ser de 8 dígitos")
+	@Max(value = 99999999, message = "El DNI debe ser de 8 dígitos")
 	private int idTeacher;
 	@Pattern(regexp = "[a-zA-ZÀ-ÿ\\u00f1\\u00d1]+(\\s[a-zA-ZÀ-ÿ\\u00f1\\u00d1])*[a-zA-ZÀ-ÿ\\u00f1\\u00d1]+(\\s[a-zA-ZÀ-ÿ\\u00f1\\u00d1])*[a-zA-ZÀ-ÿ\\u00f1\\u00d1]+$", message = "El nombre debe tener como minimo 1 y maximo 3 palabras (solo letras)")
 	@Column(name = "nameTeacher", nullable = false, length = 45)
@@ -27,7 +29,7 @@ public class Teacher implements Serializable {
 	@Pattern(regexp = "[a-zA-ZÀ-ÿ\\u00f1\\u00d1]+(\\s[a-zA-ZÀ-ÿ\\u00f1\\u00d1])*[a-zA-ZÀ-ÿ\\u00f1\\u00d1]+(\\s[a-zA-ZÀ-ÿ\\u00f1\\u00d1])*[a-zA-ZÀ-ÿ\\u00f1\\u00d1]+$", message = "El apellido debe tener como minimo 1 y maximo 3 palabras (solo letras)")
 	@Column(name = "lastnameTeacher", nullable = false, length = 45)
 	private String lastnameTeacher;
-	@Past(message = "La fecha debe ser pasada")
+	@Past(message = "La edad debe estar entre 23 años y 60 años")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateOfBirthTeacher;
 	@PastOrPresent(message = "La fecha debe ser pasada")
