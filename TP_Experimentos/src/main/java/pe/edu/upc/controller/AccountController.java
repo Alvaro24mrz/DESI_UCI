@@ -38,6 +38,7 @@ public class AccountController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+			
 
 		model.addAttribute("cuenta", "Bienvenido " + cuenta.getNameAccount());
 		try {
@@ -51,6 +52,12 @@ public class AccountController {
 
 	@GetMapping("/new")
 	public String newAccount(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
+		
 		model.addAttribute("account", new Account());
 
 		model.addAttribute("roles", rS.list());
@@ -59,6 +66,12 @@ public class AccountController {
 
 	@PostMapping("/save")
 	public String saveAccount(@Validated Account account, BindingResult result, Model model) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		cuenta = this.usuarioService.getAccount(userDetail.getUsername());
+		model.addAttribute("cuenta", cuenta);
+		
+		
 		if (result.hasErrors()) {
 			model.addAttribute("roles", rS.list());
 			return "user/user";

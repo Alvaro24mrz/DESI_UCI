@@ -3563,7 +3563,7 @@ none
 	padding: .25rem 1.5rem;
 	clear: both;
 	font-weight: 400;
-	color: #3a3b45;
+	color: rgb(255, 255, 255);
 	text-align: inherit;
 	white-space: nowrap;
 	background-color: transparent;
@@ -7487,6 +7487,7 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover
 	background-color: #42444e !important
 }
 
+/*SECCIONES DE MENÚ Y BARRA SUPERIOR*/
 .bg-white {
 	background-color: #fff !important
 }
@@ -10885,6 +10886,7 @@ opacity
 	animation-timing-function: opacity cubic-bezier(0, 1, .4, 1)
 }
 
+/*FONDO LATERAL DE MENÚ*/
 .bg-gradient-primary {
 	background-color: #e74a3b;
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(10%, #e74a3b),
@@ -10986,7 +10988,7 @@ opacity
 }
 
 .text-gray-400 {
-	color: #d1d3e2 !important
+	color: rgb(255, 255, 255) !important
 }
 
 .text-gray-500 {
@@ -11130,8 +11132,9 @@ opacity
 	width: 2rem
 }
 
+/*BARRA SUPERIOR*/
 .topbar {
-	height: 4.375rem
+	height: 2.375rem
 }
 
 .topbar #sidebarToggleTop {
@@ -11340,6 +11343,8 @@ opacity
 	color: #b7b9cc
 }
 
+
+/*TEXTO DE MENÚ*/
 .sidebar .nav-item .collapse .collapse-inner .collapse-item, .sidebar .nav-item .collapsing .collapse-inner .collapse-item
 	{
 	padding: .5rem 1rem;
